@@ -1,0 +1,20 @@
+######APP1#######Week 1 Include testing. Started 8/15
+APPNAME: Project name
+CSS improvement
+Python, Angular, Docker, Serverless, Testing before CI/CD
+FE….APPLE.COM Sytle 
+####GOAL Python Microservice Backend Sign up for alerts on when linus tech tips releases new apple video, and when apple.com blogs. 
+Popular comment engines. 
+######Test box sign up tool######
+######Forum area for paid users#####
+######Email Tool###### (PREBUILT if Possible)
+######Business Logic.######
+##### field tool that sends coupons to users who open an email####
+
+
+
+##Tables
+Member can read posting
+Paid_Subscriber can write in forums and submit user section articles
+Members who have not been are sent coupons. 
+Other users can pay community writters 99cent per month in donation. 

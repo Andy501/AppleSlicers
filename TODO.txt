@@ -1,0 +1,6 @@
+set up gitignore
+set up git
+
+
+plan out relations
+
