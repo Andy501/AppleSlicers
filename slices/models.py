@@ -5,7 +5,7 @@ from django.urls import reverse
 from django.contrib.auth.models import AbstractUser
 from django.utils.translation import gettext_lazy as _
 from django.conf import settings
-from datetime import date
+from datetime import date, datetime
 
 #Django abstract user
 class UserManage(AbstractUser):
@@ -77,7 +77,7 @@ class Payment(models.Model):
     coupon = models.CharField(max_length=75, null=True, blank=True)
     #join_date
     #consequetive_months_paid
-    #last_payment
+    last_payment = models.DateField
     #payment_due_date
     # last_payment_date
     
@@ -87,13 +87,36 @@ class Payment(models.Model):
         return f"{self.username.username} has paid: {self.paid}"
     
 
+    def within_range(self,*args, **Kwargs):
+        """Boolean returning function 10 days or less between today and last payment
+        also take another step and blank if within range no true"""
+        #place holder for now
+        #if last_payment_date - datetime.today < 10 :
+
+        ######or solution can be due date + a certain amount if days
+        ###### and while here due date field is due date .save()
+        ######if today is greater than or = due date payment due = true
+
+        #else
+        from datetime import date
+        print("today is :",datetime.now())
+        d0 = date(2017, 8, 18)
+        d1 = date(2017, 10, 26)
+        print(d1)
+    
+        delta = d1 - d0
+        print(delta.days)
+        
+        #Placeholder to keep code from breaking 
+        return False
+
+
     
     def pay_up(self, *args, **Kwargs):
         self.paid = True
         self.save()
        
-        # self.paid = True
-        #self.save()
+    
 
   
   

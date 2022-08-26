@@ -50,9 +50,11 @@ def payment_view(request, pk):
     #create payment and ,unpack the returning tuple
     payment_record, _ = Payment.objects.get_or_create(username_id=pk)
 
-    #API placeholder for successful payment
-    #TODO: needs to incorporate date check in model method
-    if placeholder_status == True:
+ 
+    #TODO: build withhin range needs to incorporate date check in model method
+
+    """Method within_range() calculates dates between payments. Returns True if payment is due."""
+    if Payment.within_range(payment_record, pk) == True:
         record_paying_ = Payment.pay_up(payment_record, pk)
     else: 
         print("payment not made")
@@ -72,19 +74,17 @@ class MemberListAPI(generics.ListAPIView):
 
     queryset = Articles.objects.all()
 
-# https://stackoverflow.com/questions/48427475/class-based-view-and-call-function-to-script
+                    # https://stackoverflow.com/questions/48427475/class-based-view-and-call-function-to-script
 
-    #  def dispatch(self,request,*args,**kwargs):
-    #     lobby_object = self.get_object()
-    #     user_object = request.user
-    #     # do stuff with lobby_object & user_object
-    #     return super().dispatch(request,*args, **kwargs) 
-    #     # can also return an http request
-
-    
-
+                        #  def dispatch(self,request,*args,**kwargs):
+                        #     lobby_object = self.get_object()
+                        #     user_object = request.user
+                        #     # do stuff with lobby_object & user_object
+                        #     return super().dispatch(request,*args, **kwargs) 
+                        #     # can also return an http request
 
     
+
 
 #MemberDetail
     #with last login
@@ -125,5 +125,6 @@ class MemberListAPI(generics.ListAPIView):
 
 
 
-
+#####ADD CSV Exporting
+# https://stackoverflow.com/questions/18685223/how-to-export-django-model-data-into-csv-file
     
