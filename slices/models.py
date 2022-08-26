@@ -13,6 +13,7 @@ class UserManage(AbstractUser):
     email = models.EmailField(_('email'), unique=True)
     first_name = models.CharField(blank=True, max_length=25)
     last_name = models.CharField(blank=True,  max_length=25)
+    #Join Date
 
     USERNAME_FIELD = 'email'
     REQUIRED_FIELDS = ['username'] #phone number
@@ -75,11 +76,9 @@ class Payment(models.Model):
     auto_pay =models.BooleanField(default=False)
     paid = models.BooleanField(default=False)
     coupon = models.CharField(max_length=75, null=True, blank=True)
-    #join_date
-    #consequetive_months_paid
-    last_payment = models.DateField
-    #payment_due_date
-    # last_payment_date
+    last_payment_date = models.DateField(blank=True)
+    #number_times_subscription_renewed #increments by 1 evertime payment is made. TODO: add to models and pay_now methods. SIMPLE Implementation 
+
     
 
 
@@ -87,34 +86,36 @@ class Payment(models.Model):
         return f"{self.username.username} has paid: {self.paid}"
     
 
+    #called from view
+    def next_scheduled_due(self):
+        #TODO: Add 30 days to last payment, simple read only string
+        return #next_payment = self.last_payment_date + 30
+
     def within_range(self,*args, **Kwargs):
-        """Boolean returning function 10 days or less between today and last payment
-        also take another step and blank if within range no true"""
-        #place holder for now
-        #if last_payment_date - datetime.today < 10 :
+        """Boolean returning function 30 days or less between today and last payment
+        also take another step and blank if within range no true."""
 
-        ######or solution can be due date + a certain amount if days
-        ###### and while here due date field is due date .save()
-        ######if today is greater than or = due date payment due = true
+        #TODO: From template no pay button shows if bill is not TRUE now.
 
-        #else
-        from datetime import date
-        print("today is :",datetime.now())
-        d0 = date(2017, 8, 18)
-        d1 = date(2017, 10, 26)
-        print(d1)
-    
-        delta = d1 - d0
-        print(delta.days)
+        due = self.last_payment_date - datetime.now().date()
+        due = (due.days * -1)
+   
+        """30 days or greater bill is due"""
+
+        if due >= 30:
+            print(due)
+            return True
+        else:
+            print(due)
+            return False
         
-        #Placeholder to keep code from breaking 
-        return False
-
-
-    
+       
+    #Method will occur in the flow of successsful stripe payment
     def pay_up(self, *args, **Kwargs):
+        """Make payment Time stamps successful paymement and changes paid field to True."""
+        self.last_payment_date = datetime.now().date()
         self.paid = True
-        self.save()
+        self.save() #save the instance
        
     
 
@@ -127,7 +128,6 @@ class Payment(models.Model):
         #if coupon == charges field x .05
     #next_paymentdate = 30 days after payment date. 
 
-    #TODO create method that turns paid to true
     #TODO add auto pay to form, coupon field in form
 
 

@@ -4,9 +4,11 @@ from django.views.generic.detail import DetailView
 from .models import Articles, Payment, UserManage
 from .serializers import ArticlesSerializer
 from apples.time_logic import *
-from apples.payment_placeholder import placeholder_status
+from apples.payment_terms import due_when
 
 from django.urls import reverse
+
+####ALLOW PREMIUM MEMBERS TO POST VIDEO REVIEWs
 
 #####Django Rest
 
@@ -21,10 +23,7 @@ from django.urls import reverse
 #     author=getter, title="loop" , body=hello,
 #     )
 
-  
-   
 
-#     
 
 def home(request):
     """Returns dynamic message based on time of the week.
@@ -40,19 +39,21 @@ def home(request):
     return render(request, "slices/index.html", context={"heading": heading, "coupon":coupon})
 
 
-#TODO: add payment view routing and model logic
-#Prety much a detail view
+
+
 def payment_view(request, pk):
-    """form processes payment if SUCCESSFUL"""""
+    """form processes payment if and applies the following logic if SUCCESSFUL"""
+    #TODO: v3 add stripe and apply logic to db only on successful payment, Add get object or 404
+
 
     user = UserManage.objects.get(id=pk)
 
-    #create payment and ,unpack the returning tuple
+    #note - creates payment instance and ,unpack the returning tuple
     payment_record, _ = Payment.objects.get_or_create(username_id=pk)
 
  
-    #TODO: build withhin range needs to incorporate date check in model method
-
+    
+    #TODO: Wrap logic below in form. ###ON POST
     """Method within_range() calculates dates between payments. Returns True if payment is due."""
     if Payment.within_range(payment_record, pk) == True:
         record_paying_ = Payment.pay_up(payment_record, pk)
@@ -86,7 +87,7 @@ class MemberListAPI(generics.ListAPIView):
     
 
 
-#MemberDetail
+#MemberDetailAPI
     #with last login
     #with articles writen
     #with total "OPENS of link as reads"

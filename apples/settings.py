@@ -28,6 +28,9 @@ DEBUG = True
 ALLOWED_HOSTS = []
 
 
+
+
+
 # Application definition
 #AUTH_USER_MODEL = 'YourAppName.YourClassName'
 AUTH_USER_MODEL = "slices.UserManage" 
@@ -42,6 +45,8 @@ INSTALLED_APPS = [
     'rest_framework',
     'slices', 
 ]
+
+
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
